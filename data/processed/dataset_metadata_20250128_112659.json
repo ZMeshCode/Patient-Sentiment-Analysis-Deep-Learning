@@ -1,0 +1,1 @@
+{"timestamp":"20250128_112659","total_samples":10000,"train_samples":8000,"val_samples":2000,"train_split":0.8,"sentiment_weights":{"positive":0.4,"neutral":0.3,"negative":0.3},"train_file":"patient_feedback_train_20250128_112659.csv","val_file":"patient_feedback_val_20250128_112659.csv"}
