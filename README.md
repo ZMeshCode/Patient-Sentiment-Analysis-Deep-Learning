@@ -5,6 +5,13 @@ A deep learning-based system for analyzing patient satisfaction and feedback in 
 ## Overview
 This project implements a sophisticated sentiment analysis system designed to process and analyze patient feedback data. It uses deep learning techniques to understand patient sentiments and provide actionable insights for healthcare providers.
 
+## Data Generation
+The model is trained on synthetically generated patient feedback data to ensure privacy and data protection. The synthetic data generator creates realistic patient feedback scenarios while maintaining the statistical properties of real healthcare feedback data. This approach allows us to:
+- Protect patient privacy by not using real patient data
+- Generate large-scale training datasets
+- Create diverse feedback scenarios
+- Control the distribution of sentiment categories
+
 ## Features
 - Data collection and preprocessing pipeline
 - Deep learning model for sentiment analysis
@@ -68,8 +75,5 @@ python src/models/train_model.py
 - Optimizer: AdamW with weight decay
 - Device: GPU (MPS) on Apple Silicon, CPU fallback
 
-## License
-MIT License
-
 ## Contributors
-- [Your Name]
+- Bobby Meshesha
