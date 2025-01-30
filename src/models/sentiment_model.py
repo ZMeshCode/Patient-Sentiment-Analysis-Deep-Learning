@@ -106,16 +106,21 @@ class SentimentAnalyzer:
         Args:
             model_path (str, optional): Path to saved model weights
         """
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
+        print(f"Using device: {self.device}")
+        
         self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         self.model = PatientSentimentModel().to(self.device)
         
         if model_path:
             try:
-                self.model.load_state_dict(torch.load(model_path, map_location=self.device))
-                logging.info(f"Model loaded from {model_path}")
+                print(f"Loading model from {model_path}")
+                state_dict = torch.load(model_path, map_location=self.device)
+                self.model.load_state_dict(state_dict)
+                print("Model loaded successfully")
             except Exception as e:
-                logging.error(f"Error loading model: {str(e)}")
+                print(f"Error loading model: {str(e)}")
+                raise
         
         self.model.eval()
         
@@ -149,13 +154,15 @@ class SentimentAnalyzer:
             predictions = []
             
             for prob, score in zip(probs, sentiment_scores):
-                predictions.append({
-                    'negative_prob': prob[0].item(),
-                    'neutral_prob': prob[1].item(),
-                    'positive_prob': prob[2].item(),
-                    'sentiment_score': score.item(),
-                    'predicted_class': torch.argmax(prob).item()
-                })
+                pred_dict = {
+                    'negative_prob': float(prob[0].item()),
+                    'neutral_prob': float(prob[1].item()),
+                    'positive_prob': float(prob[2].item()),
+                    'sentiment_score': float(score.item()),
+                    'predicted_class': int(torch.argmax(prob).item())
+                }
+                print(f"Prediction details: {pred_dict}")
+                predictions.append(pred_dict)
                 
         return predictions
 
